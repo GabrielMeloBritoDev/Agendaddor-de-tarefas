@@ -15,8 +15,6 @@ public class JwtUtil {
     // Chave secreta usada para assinar e verificar tokens JWT
     private final String secretKey = "sua-chave-secreta-super-segura-que-deve-ser-bem-longa";
 
-
-
     // Gera um token JWT com o nome de usuário e validade de 1 hora
     public String generateToken(String username) {
         return Jwts.builder()
@@ -29,9 +27,9 @@ public class JwtUtil {
 
     // Extrai as claims do token JWT (informações adicionais do token)
     public Claims extractClaims(String token) {
-        return Jwts.parser()
+        return Jwts.parserBuilder() // Use parserBuilder() para a versão mais recente
                 .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8))) // Define a chave secreta para validar a assinatura do token
-                .build()
+                .build() // Cria o parser com a chave
                 .parseClaimsJws(token) // Analisa o token JWT e obtém as claims
                 .getBody(); // Retorna o corpo das claims
     }
